@@ -42,8 +42,25 @@ const getProductById = async ({ id }) => {
   }
 };
 
+const updateProduct = async ({ id, updateInfo }) => {
+  try {
+    checkObjectId(id);
+    let product = await Product.findOneAndUpdate({ _id: id }, updateInfo, {
+      new: true,
+    });
+    if (!product) {
+      throw new Error(constants.productMessage.PRODUCT_UPDATED);
+    }
+    return formatMongoData(product);
+  } catch (error) {
+    console.log('Something went wrong: Service: updateProduct', error);
+    throw new Error(error);
+  }
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 };

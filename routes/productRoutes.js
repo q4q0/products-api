@@ -18,4 +18,10 @@ router.get(
 
 router.get('/:id', productController.getProductById);
 
+router.put(
+  '/:id',
+  validationSchema.validateBody(productSchema.updateProductSchema),
+  productController.updateProduct
+);
+
 module.exports = router;

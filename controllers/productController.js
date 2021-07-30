@@ -48,8 +48,28 @@ const getProductById = async (req, res) => {
   return res.status(response.status).json(response);
 };
 
+const updateProduct = async (req, res) => {
+  let response = {};
+  try {
+    const allProducts = await productService.updateProduct({
+      id: req.params.id,
+      updateInfo: req.body,
+    });
+    response.status = 200;
+    response.message = constants.productMessage.PRODUCT_UPDATED;
+    response.body = allProducts;
+  } catch (error) {
+    console.log('Something went wrong: Controller: updateProduct', error);
+    response.status = 400;
+    response.message = error.message;
+    response.body = {};
+  }
+  return res.status(response.status).json(response);
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 };
