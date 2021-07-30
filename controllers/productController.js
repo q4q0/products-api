@@ -1,5 +1,6 @@
 const productService = require('../services/productService');
 const constants = require('../constants');
+
 const createProduct = async (req, res) => {
   let response = {};
   try {
@@ -35,7 +36,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   let response = {};
   try {
-    const allProducts = await productService.getProductById(req.params);
+    const allProducts = await productService.getProductById(req.params.id);
     response.status = 200;
     response.message = constants.productMessage.PRODUCT_FETCHED;
     response.body = allProducts;
@@ -67,9 +68,26 @@ const updateProduct = async (req, res) => {
   return res.status(response.status).json(response);
 };
 
+const deleteProduct = async (req, res) => {
+  let response = {};
+  try {
+    const allProducts = await productService.deleteProduct(req.params.id);
+    response.status = 200;
+    response.message = constants.productMessage.PRODUCT_DELETED;
+    response.body = allProducts;
+  } catch (error) {
+    console.log('Something went wrong: Controller: deleteProduct', error);
+    response.status = 400;
+    response.message = error.message;
+    response.body = {};
+  }
+  return res.status(response.status).json(response);
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
+  deleteProduct,
 };

@@ -1,7 +1,6 @@
 const Product = require('../database/models/productModel');
 const { checkObjectId, formatMongoData } = require('../helpers/dbHelper');
 const constants = require('../constants');
-const mongoose = require('mongoose');
 
 const createProduct = async (data) => {
   try {
@@ -28,7 +27,7 @@ const getAllProducts = async ({ skip = 0, limit = 10 }) => {
   }
 };
 
-const getProductById = async ({ id }) => {
+const getProductById = async (id) => {
   try {
     checkObjectId(id);
     let product = await Product.findById(id);
@@ -49,11 +48,25 @@ const updateProduct = async ({ id, updateInfo }) => {
       new: true,
     });
     if (!product) {
-      throw new Error(constants.productMessage.PRODUCT_UPDATED);
+      throw new Error(constants.productMessage.PRODUCT_NOT_FOUND);
     }
     return formatMongoData(product);
   } catch (error) {
     console.log('Something went wrong: Service: updateProduct', error);
+    throw new Error(error);
+  }
+};
+
+const deleteProduct = async (id) => {
+  try {
+    checkObjectId(id);
+    let product = await Product.findOneAndDelete(id);
+    if (!product) {
+      throw new Error(constants.productMessage.PRODUCT_NOT_FOUND);
+    }
+    return formatMongoData(product);
+  } catch (error) {
+    console.log('Something went wrong: Service: deleteProduct', error);
     throw new Error(error);
   }
 };
@@ -63,4 +76,5 @@ module.exports = {
   getAllProducts,
   getProductById,
   updateProduct,
+  deleteProduct,
 };

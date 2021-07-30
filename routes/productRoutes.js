@@ -2,17 +2,17 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const validationSchema = require('../middlewares/validationSchema');
-const productSchema = require('../schema/productSchema');
+const productValidationSchema = require('../schema/productValidationSchema');
 
 router.post(
   '/',
-  validationSchema.validateBody(productSchema.createProductSchema),
+  validationSchema.validateBody(productValidationSchema.createProductSchema),
   productController.createProduct
 );
 
 router.get(
   '/',
-  validationSchema.validateQueryParams(productSchema.getAllProductSchema),
+  validationSchema.validateQueryParams(productValidationSchema.getAllProductSchema),
   productController.getAllProducts
 );
 
@@ -20,8 +20,10 @@ router.get('/:id', productController.getProductById);
 
 router.put(
   '/:id',
-  validationSchema.validateBody(productSchema.updateProductSchema),
+  validationSchema.validateBody(productValidationSchema.updateProductSchema),
   productController.updateProduct
 );
+
+router.delete('/:id', productController.deleteProduct);
 
 module.exports = router;

@@ -23,8 +23,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// =================== ROUTES ====================== //
+
 const productRoutes = require('./routes/productRoutes');
 app.use('/api/v1/products', productRoutes);
+
+const userRoutes = require('./routes/userRoutes.js');
+app.use('/api/v1/users', userRoutes);
 
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
