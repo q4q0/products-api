@@ -17,6 +17,23 @@ const signup = async (req, res) => {
   return res.status(response.status).json(response);
 };
 
+const login = async (req, res) => {
+  let response = {};
+  try {
+    const createdProduct = await userService.login(req.body);
+    response.status = 200;
+    response.message = constants.userMessage.LOGIN_SUCCESS;
+    response.body = createdProduct;
+  } catch (error) {
+    console.log('Something went wrong: Controller: login', error);
+    response.status = 400;
+    response.message = error.message;
+    response.body = {};
+  }
+  return res.status(response.status).json(response);
+};
+
 module.exports = {
   signup,
+  login,
 };
