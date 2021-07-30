@@ -24,19 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const productRoutes = require('./routes/productRoutes');
-app.use('/api/v1/product', productRoutes);
-
-app.get('/', middleware, (req, res, next) => {
-  res.status(200).json({
-    msg: 'home page',
-  });
-});
-
-app.get('/about', (req, res, next) => {
-  res.status(200).json({
-    msg: 'about page',
-  });
-});
+app.use('/api/v1/products', productRoutes);
 
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);

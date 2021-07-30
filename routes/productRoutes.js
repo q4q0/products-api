@@ -10,6 +10,12 @@ router.post(
   productController.createProduct
 );
 
-router.get('/', productController.getAllProducts);
+router.get(
+  '/',
+  validationSchema.validateQueryParams(productSchema.getAllProductSchema),
+  productController.getAllProducts
+);
+
+router.get('/:id', productController.getProductById);
 
 module.exports = router;
